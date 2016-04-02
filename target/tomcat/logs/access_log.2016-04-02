@@ -1,2 +1,0 @@
-0:0:0:0:0:0:0:1 - - [02/Apr/2016:15:00:32 -0700] "GET /HelloSpringMVC/hello HTTP/1.1" 404 - http-bio-8080-exec-1 0
-0:0:0:0:0:0:0:1 - - [02/Apr/2016:15:00:40 -0700] "GET /MiniTwitter/ HTTP/1.1" 200 52 http-bio-8080-exec-2 470
