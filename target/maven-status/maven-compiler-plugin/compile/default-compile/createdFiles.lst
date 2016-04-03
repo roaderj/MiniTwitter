@@ -1,1 +1,6 @@
-MiniTwitter/MainController.class
+MiniTwitter/dao/MiniTwitterDAO.class
+MiniTwitter/service/MiniTwitterService.class
+MiniTwitter/bean/UserBean.class
+MiniTwitter/service/IMiniTwitterService.class
+MiniTwitter/dao/IMiniTwitterDAO.class
+MiniTwitter/mvc/MiniTwitterController.class
