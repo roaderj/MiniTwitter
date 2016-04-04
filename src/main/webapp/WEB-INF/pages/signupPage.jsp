@@ -7,7 +7,7 @@
 <body>
 	<h1>Signup</h1>
 	<a href="<c:url value="/login" />" >Login</a>
-	<form action="<c:url value="/signupForm" />" method="GET" class="form-horizontal">
+	<form action="<c:url value="/signupForm" />" method="POST" class="form-horizontal">
 	   	<table>
 			<c:if test="${param.error != null}">
 				<div style="color:RED">
@@ -29,6 +29,7 @@
 	      </tr>
 	      <tr>
 	         <td><input name="submit" type="submit" value="login" /></td>
+	         <td><input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" /></td>
 	      </tr>
 	   </table>
 	</form>

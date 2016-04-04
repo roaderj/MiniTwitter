@@ -81,15 +81,22 @@ public class MiniTwitterDAO implements IMiniTwitterDAO {
 	}
 
 	public List<String> getTweet(String uname, String search) {
-		String query = "SELECT t.uname,t.tweet FROM tweets t, follows f "
-				+ "WHERE ((f.follower = :uname AND f.following = t.uname) OR t.uname = :uname) "
-				+ "AND (t.uname = :search OR t.message = :search);";
+		String query = "SELECT uname, tweet FROM tweets "
+				+ "WHERE uname = :uname AND (uname LIKE :search OR tweet LIKE :search);";
+		String query2 = "SELECT t.uname,t.tweet FROM tweets t, follows f "
+				+ "WHERE (f.follower = :uname AND f.following = t.uname) "
+				+ "AND (t.uname LIKE :search OR t.tweet LIKE :search);";
 		Map<String,String> namedParameters = new HashMap<String,String>();
 		namedParameters.put("uname", uname);
 		namedParameters.put("search", "%"+search+"%");
 		List<String> tweets = new ArrayList<String>();
 		try {
 			List<Map<String, Object>> rows = namedParameterJdbcTemplate.queryForList(query,namedParameters);
+			for (Map<String, Object> row : rows) {
+				String r = "@" + (String)row.get("uname") + ": " + (String)row.get("tweet");
+				tweets.add(r);
+			}
+			rows = namedParameterJdbcTemplate.queryForList(query2,namedParameters);
 			for (Map<String, Object> row : rows) {
 				String r = "@" + (String)row.get("uname") + ": " + (String)row.get("tweet");
 				tweets.add(r);

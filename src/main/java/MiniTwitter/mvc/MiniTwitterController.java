@@ -1,6 +1,7 @@
 package MiniTwitter.mvc;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +41,28 @@ public class MiniTwitterController {
 	@RequestMapping(value = {"/", "/userInfo"} , method = RequestMethod.GET)
 	public String userInfo(Model model, Principal principal) {
 		String userName = principal.getName();
-		model.addAttribute("message", userName);
+		model.addAttribute("user", userName);
+		List<String> tweets = miniTwitterService.getTweet(userName, "");
+		model.addAttribute("tweets", tweets);
+		return "userInfoPage";
+	}
+	
+	@RequestMapping(value = {"/tweetMessage"} , method = RequestMethod.POST)
+	public String tweetMessage(Model model, Principal principal, @RequestParam("message") String message) {
+		String userName = principal.getName();
+		model.addAttribute("user", userName);
+		miniTwitterService.tweetMessage(userName, message);
+		List<String> tweets = miniTwitterService.getTweet(userName, "");
+		model.addAttribute("tweets", tweets);
+		return "userInfoPage";
+	}
+	
+	@RequestMapping(value = {"/tweetsSearch"} , method = RequestMethod.POST)
+	public String tweetsSearch(Model model, Principal principal, @RequestParam("search") String search) {
+		String userName = principal.getName();
+		model.addAttribute("user", userName);
+		List<String> tweets = miniTwitterService.getTweet(userName, search);
+		model.addAttribute("tweets", tweets);
 		return "userInfoPage";
 	}
 
@@ -63,7 +85,7 @@ public class MiniTwitterController {
 		return "signupPage";
 	}
 
-	@RequestMapping(value = "/signupForm", method = RequestMethod.GET)
+	@RequestMapping(value = "/signupForm", method = RequestMethod.POST)
 	public String doSignup(@RequestParam("username") String uname,
             @RequestParam("password") String pwd) {
 		int res = miniTwitterService.signupUser(uname, pwd);

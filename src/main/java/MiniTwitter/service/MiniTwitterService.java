@@ -18,8 +18,8 @@ public class MiniTwitterService implements IMiniTwitterService {
 		return miniTwitterDAO.signupUser(uname, pwd);
 	}
 
-	public void setUserDAO(MiniTwitterDAO userDAO) {
-		this.miniTwitterDAO = userDAO;
+	public void setMiniTwitterDAO(MiniTwitterDAO miniTwitterDAO) {
+		this.miniTwitterDAO = miniTwitterDAO;
 	}
 
 	public List<String> getFollowers(String uname) {
