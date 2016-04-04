@@ -1,5 +1,7 @@
 CREATE database IF NOT EXISTS MiniTwitterDB;
 
+USE MiniTwitterDB;
+
 DROP TABLE IF EXISTS login;
 
 CREATE TABLE login (

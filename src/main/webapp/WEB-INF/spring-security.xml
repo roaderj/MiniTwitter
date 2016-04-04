@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+  xsi:schemaLocation="http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security-4.0.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+ 
+  
+	<http auto-config="true">
+		<intercept-url pattern="/" access="hasAnyRole('ROLE_USER')" /> 
+		<intercept-url pattern="/userInfo" access="hasAnyRole('ROLE_USER')" />
+		<intercept-url pattern="/other/**" access="isAuthenticated()" />
+ 
+		<access-denied-handler error-page="/403" />
+ 
+		<form-login 
+			login-page='/login'
+			default-target-url="/userInfo"
+			always-use-default-target="false"
+			authentication-failure-url="/login?error=true" 
+			username-parameter="username"
+			password-parameter="password" />
+ 		<csrf/>
+	</http>
+ 
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+			<user name="user1" password="12345" authorities="ROLE_USER" />
+          	</user-service>
+      	</authentication-provider>
+ 
+	 <!-- authentication from database -->
+		<authentication-provider>
+			<jdbc-user-service data-source-ref="DataSource"
+				users-by-username-query="select uname,password, true from login where uname=?"
+				authorities-by-username-query="select uname, 'ROLE_USER' from login where uname=?" />
+		</authentication-provider>
+ 
+  </authentication-manager>
+ 
+</beans:beans>

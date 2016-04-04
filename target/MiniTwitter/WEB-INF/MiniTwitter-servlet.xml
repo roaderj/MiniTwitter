@@ -12,10 +12,7 @@
     <mvc:annotation-driven />
     <context:annotation-config />
     
-	<context:component-scan base-package="MiniTwitter.bean" />
-	<context:component-scan base-package="MiniTwitter.dao" />
-	<context:component-scan base-package="MiniTwitter.service" />
-	<context:component-scan base-package="MiniTwitter.mvc" />
+	<context:component-scan base-package="MiniTwitter" />
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
