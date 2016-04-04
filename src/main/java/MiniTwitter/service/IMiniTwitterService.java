@@ -1,7 +1,8 @@
 package MiniTwitter.service;
 
-import MiniTwitter.bean.UserBean;
+import MiniTwitter.dao.UserDAO;
 
 public interface IMiniTwitterService {
-	public abstract int signupUser(UserBean userBean);
+	public abstract void setUserDAO(UserDAO userDAO);
+	public abstract int signupUser(String uname, String pwd);
 }
