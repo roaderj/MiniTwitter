@@ -10,8 +10,8 @@ public class MiniTwitterService implements IMiniTwitterService {
 	@Autowired
 	private IMiniTwitterDAO MiniTwitterDAO;
 	
-	public boolean authenicateUser(UserBean userBean) {
-		return MiniTwitterDAO.authenticateUser(userBean);
+	public int signupUser(UserBean userBean) {
+		return MiniTwitterDAO.signupUser(userBean);
 	}
 
 }

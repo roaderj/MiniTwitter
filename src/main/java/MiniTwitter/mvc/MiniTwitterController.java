@@ -28,17 +28,8 @@ public class MiniTwitterController {
 	@Autowired
 	private IMiniTwitterService miniTwitterService;
 
-	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
-	public String welcomePage(Model model) {
-		model.addAttribute("title", "Welcome");
-		model.addAttribute("message", "This is welcome page!");
-		return "welcome";
-	}
-
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(Model model) {
-		model.addAttribute("title", "Login");
-		model.addAttribute("message", "Enter your username/password:");
 		return "loginPage";
 	}
 	
@@ -51,16 +42,10 @@ public class MiniTwitterController {
 		return "redirect:/login?logout";
 	}
 
-	@RequestMapping(value = "/userInfo", method = RequestMethod.GET)
-	public String loginPage(Model model, Principal principal) {
-		model.addAttribute("title", "User Info");
-
-		// Sau khi user login thanh cong se co principal
+	@RequestMapping(value = {"/", "/userInfo"} , method = RequestMethod.GET)
+	public String userInfo(Model model, Principal principal) {
 		String userName = principal.getName();
-
-		model.addAttribute("message",
-				"User Info - This is protected page!. Hello " + userName);
-
+		model.addAttribute("message", userName);
 		return "userInfoPage";
 	}
 
@@ -77,23 +62,26 @@ public class MiniTwitterController {
 		}
 		return "403Page";
 	}
-/*
-	@RequestMapping("toLogin")
-	public String toLogin(Model model) { 
+
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	public String signupPage(Model model) { 
 		model.addAttribute("userBean", new UserBean());
-		return "login";
+		return "signupPage";
 	}
 
-	@RequestMapping("doLogin")
-	public ModelAndView doLogin(@ModelAttribute @Valid UserBean userBean,BindingResult result) {
-		ModelAndView view = new ModelAndView("login");
+	@RequestMapping("doSignup")
+	public ModelAndView doSignup(@ModelAttribute @Valid UserBean userBean,BindingResult result) {
+		ModelAndView view = new ModelAndView("signupPage");
 		if(!result.hasFieldErrors()) {
-			if (!miniTwitterService.authenicateUser(userBean)) {
-				result.addError(new ObjectError("err", "Username or password incorrect"));
+			int res = miniTwitterService.signupUser(userBean);
+			if (res == -1) {
+				result.addError(new ObjectError("userId", "Username already used"));
+			} else if (res == -2) {
+				result.addError(new ObjectError("err", "Falied to register user"));
 			} else {
-				view.setViewName("welcome");
+				view.setViewName("redirect:/login?signup");
 			}
 		}
 		return view;
-	}*/
+	}
 }

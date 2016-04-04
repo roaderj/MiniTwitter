@@ -4,7 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class UserBean {
 	
-	@NotEmpty(message="UserId cannot be empty")
+	@NotEmpty(message="Username cannot be empty\n")
 	private String userId;
 	@NotEmpty(message="Password cannot be empty")
 	private String password;

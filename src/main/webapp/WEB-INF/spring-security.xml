@@ -17,7 +17,6 @@
 		<form-login 
 			login-page='/login'
 			default-target-url="/userInfo"
-			always-use-default-target="false"
 			authentication-failure-url="/login?error=true" 
 			username-parameter="username"
 			password-parameter="password" />
@@ -34,8 +33,8 @@
 	 <!-- authentication from database -->
 		<authentication-provider>
 			<jdbc-user-service data-source-ref="DataSource"
-				users-by-username-query="select uname,password, true from login where uname=?"
-				authorities-by-username-query="select uname, 'ROLE_USER' from login where uname=?" />
+				users-by-username-query="select uname,password, true from users where uname=?"
+				authorities-by-username-query="select uname, 'ROLE_USER' from users where uname=?" />
 		</authentication-provider>
  
   </authentication-manager>
