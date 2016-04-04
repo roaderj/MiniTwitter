@@ -1,11 +1,11 @@
-package MiniTwitter.service;
+package MiniTwitter.dao;
 
 import java.util.List;
 
-import MiniTwitter.dao.MiniTwitterDAO;
+import javax.sql.DataSource;
 
-public interface IMiniTwitterService {
-	public abstract void setUserDAO(MiniTwitterDAO userDAO);
+public interface IMiniTwitterDAO {
+	public abstract void setDataSource(DataSource dataSource);
 	public abstract int signupUser(String uname, String pwd);
 	public abstract List<String> getFollowers(String uname);
 	public abstract List<String> getFollowings(String uname);

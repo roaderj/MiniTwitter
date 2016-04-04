@@ -28,5 +28,6 @@ CREATE TABLE follows (
 	follower varchar(45) NOT NULL,
 	following varchar(45) NOT NULL,
 	FOREIGN KEY (follower) REFERENCES users(uname),
-	FOREIGN KEY (following) REFERENCES users(uname)
+	FOREIGN KEY (following) REFERENCES users(uname),
+	UNIQUE (follower,following)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -6,7 +6,8 @@
 </head>
 <body>
 	<h2>Welcome to MiniTwitter!</h2>
-	<h3>Hello ${message}! <a href="<c:url value="/logout" />" >Logout</a></h3>  
- 
+	<h3>Hello ${message}!</h3>  
+ 	<a href="<c:url value="/logout" />" >Logout</a>
+ 	
 </body>
 </html>
