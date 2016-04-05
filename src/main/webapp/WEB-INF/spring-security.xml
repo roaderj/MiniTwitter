@@ -8,15 +8,18 @@
  
   
 	<http auto-config="true">
+		<intercept-url pattern="/login" access="isAnonymous()" />
+		<intercept-url pattern="/signup" access="isAnonymous()" />
+		<intercept-url pattern="/401" access="isAnonymous()" />
 		<intercept-url pattern="/" access="hasAnyRole('ROLE_USER')" /> 
-		<intercept-url pattern="/userInfo" access="hasAnyRole('ROLE_USER')" />
-		<intercept-url pattern="/other/**" access="isAuthenticated()" />
+		<intercept-url pattern="/**" access="hasAnyRole('ROLE_USER')" />
  
-		<access-denied-handler error-page="/403" />
+		<access-denied-handler error-page="/401" />
  
 		<form-login 
 			login-page='/login'
 			default-target-url="/userInfo"
+			always-use-default-target="true"
 			authentication-failure-url="/login?error=true" 
 			username-parameter="username"
 			password-parameter="password" />

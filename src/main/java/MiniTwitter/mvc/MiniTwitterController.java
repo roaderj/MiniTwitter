@@ -55,10 +55,10 @@ public class MiniTwitterController {
 		miniTwitterService.tweetMessage(userName, message);
 		List<String> tweets = miniTwitterService.getTweet(userName, "");
 		model.addAttribute("tweets", tweets);
-		return "userInfoPage";
+		return "redirect:/userInfo";
 	}
 	
-	@RequestMapping(value = {"/tweetsSearch"} , method = RequestMethod.POST)
+	@RequestMapping(value = {"/tweetsSearch"} , method = RequestMethod.GET)
 	public String tweetsSearch(Model model, Principal principal, @RequestParam("search") String search) {
 		String userName = principal.getName();
 		model.addAttribute("user", userName);
@@ -71,7 +71,7 @@ public class MiniTwitterController {
 	public String followerPage(Model model, Principal principal) {
 		String userName = principal.getName();
 		model.addAttribute("user", userName);
-		List<String> followers = miniTwitterService.getFollowers(userName);
+		String[] followers = miniTwitterService.getFollowers(userName);
 		model.addAttribute("followers", followers);
 		return "followerPage";
 	}
@@ -80,7 +80,7 @@ public class MiniTwitterController {
 	public String followingPage(Model model, Principal principal) {
 		String userName = principal.getName();
 		model.addAttribute("user", userName);
-		List<String> followings = miniTwitterService.getFollowings(userName);
+		String[] followings = miniTwitterService.getFollowings(userName);
 		model.addAttribute("followings", followings);
 		return "followingPage";
 	}
@@ -100,15 +100,14 @@ public class MiniTwitterController {
 		if (relation.equals("0"))
 			miniTwitterService.startFollow(userName,followUser);
 		else if (relation.equals("1")) {
-			System.out.println("reach");
 			miniTwitterService.unFollow(userName,followUser);
 		}
 		return "redirect:/userInfo";
 	}
 
-	@RequestMapping(value = "/403", method = RequestMethod.GET)
+	@RequestMapping(value = "/401", method = RequestMethod.GET)
 	public String accessDenied(Model model, Principal principal) {
-		model.addAttribute("title", "Access Denied!");
+		model.addAttribute("title", "Unauthorised Request!");
 
 		if (principal != null) {
 			model.addAttribute("message", "Hi " + principal.getName()
@@ -117,7 +116,7 @@ public class MiniTwitterController {
 			model.addAttribute("msg",
 					"You do not have permission to access this page!");
 		}
-		return "403Page";
+		return "401Page";
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)

@@ -27,11 +27,11 @@ public class MiniTwitterService implements IMiniTwitterService {
 		return miniTwitterDAO.findUser(uname, search);
 	}
 
-	public List<String> getFollowers(String uname) {
+	public String[] getFollowers(String uname) {
 		return miniTwitterDAO.getFollowers(uname);
 	}
 
-	public List<String> getFollowings(String uname) {
+	public String[] getFollowings(String uname) {
 		return miniTwitterDAO.getFollowings(uname);
 	}
 

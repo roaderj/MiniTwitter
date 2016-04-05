@@ -1,3 +1,8 @@
-MiniTwitter/service/MiniTwitterService.class
+MiniTwitter/object/Following.class
+MiniTwitter/dao/MiniTwitterDAO.class
+MiniTwitter/object/UserRelation.class
 MiniTwitter/service/IMiniTwitterService.class
+MiniTwitter/object/Follower.class
+MiniTwitter/service/MiniTwitterService.class
+MiniTwitter/dao/IMiniTwitterDAO.class
 MiniTwitter/mvc/MiniTwitterController.class

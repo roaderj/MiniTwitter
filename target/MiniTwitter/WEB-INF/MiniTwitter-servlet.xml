@@ -27,6 +27,10 @@
 		</property>        
 	</bean> 
 	
-	<bean id="MiniTwitterService" class="MiniTwitter.service.MiniTwitterService" />
-	<bean id="MiniTwitterDAO" class="MiniTwitter.dao.MiniTwitterDAO" />
+	<bean id="MiniTwitterDAO" class="MiniTwitter.dao.MiniTwitterDAO" >
+		<property name="dataSource" ref="DataSource" />
+	</bean>
+	<bean id="MiniTwitterService" class="MiniTwitter.service.MiniTwitterService" >
+		<property name="miniTwitterDAO" ref="MiniTwitterDAO" />
+	</bean>
 </beans>

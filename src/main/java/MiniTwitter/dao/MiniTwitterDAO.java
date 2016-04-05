@@ -56,7 +56,7 @@ public class MiniTwitterDAO implements IMiniTwitterDAO {
 		return rowcount;
 	}
 	
-	public List<String> getFollowers(String uname) {
+	public String[] getFollowers(String uname) {
 		String query = "SELECT follower FROM follows WHERE following = :uname;";
 		Map<String,String> namedParameters = new HashMap<String,String>();
 		namedParameters.put("uname", uname);
@@ -64,18 +64,18 @@ public class MiniTwitterDAO implements IMiniTwitterDAO {
 		try {
 			followers = (List<String>)namedParameterJdbcTemplate.queryForList(query,namedParameters,String.class);
 		} catch(Exception e) {}		
-		return followers;
+		return followers.toArray(new String[0]);
 	}
 
-	public List<String> getFollowings(String uname) {
+	public String[] getFollowings(String uname) {
 		String query = "SELECT following FROM follows WHERE follower = :uname;";
 		Map<String,String> namedParameters = new HashMap<String,String>();
 		namedParameters.put("uname", uname);
-		List<String> followers = null;
+		List<String> followings = null;
 		try {
-			followers = (List<String>)namedParameterJdbcTemplate.queryForList(query,namedParameters,String.class);
+			followings = (List<String>)namedParameterJdbcTemplate.queryForList(query,namedParameters,String.class);
 		} catch(Exception e) {}		
-		return followers;
+		return followings.toArray(new String[0]);
 	}
 	
 	public void startFollow(String follower, String following) {

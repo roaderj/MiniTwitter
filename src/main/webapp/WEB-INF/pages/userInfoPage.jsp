@@ -26,10 +26,9 @@
  		<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
  	</form>
  	<h4>Tweets:</h4> 
- 	<form action="<c:url value="/tweetsSearch" />" method="POST">
+ 	<form action="<c:url value="/tweetsSearch" />" method="GET">
 	    <input type='text' name='search' size="50"/>
  		<input type="submit" value="Search"/>
- 		<input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" />
  	</form>
  	<ul>
  		<c:forEach var="tweet" items="${tweets}">
