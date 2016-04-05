@@ -7,22 +7,15 @@ DROP TABLE IF EXISTS follows;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
-	uid int(11) NOT NULL AUTO_INCREMENT,
 	uname varchar(45) NOT NULL UNIQUE,
-	password varchar(45) NOT NULL,
-	PRIMARY KEY (uid)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
-INSERT INTO users (uname,password) VALUES ('admin','admin');
-INSERT INTO users (uname,password) VALUES ('user','user');
+	password varchar(45) NOT NULL
+);
 
 CREATE TABLE tweets (
-	tid int(11) NOT NULL AUTO_INCREMENT,
 	uname varchar(45) NOT NULL,
 	tweet TEXT,
-	PRIMARY KEY (tid),
 	FOREIGN KEY (uname) REFERENCES users(uname)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+);
 
 CREATE TABLE follows (
 	follower varchar(45) NOT NULL,
@@ -30,4 +23,14 @@ CREATE TABLE follows (
 	FOREIGN KEY (follower) REFERENCES users(uname),
 	FOREIGN KEY (following) REFERENCES users(uname),
 	UNIQUE (follower,following)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+);
+
+INSERT INTO users (uname,password) VALUES ('Chris','12345');
+INSERT INTO users (uname,password) VALUES ('test','12345');
+INSERT INTO users (uname,password) VALUES ('test1','12345');
+INSERT INTO tweets (uname,tweet) VALUES ('Chris','hello!');
+INSERT INTO tweets (uname,tweet) VALUES ('test','hello world');
+INSERT INTO follows (follower,following) VALUES ('test','Chris');
+INSERT INTO follows (follower,following) VALUES ('test1','test');
+
+
