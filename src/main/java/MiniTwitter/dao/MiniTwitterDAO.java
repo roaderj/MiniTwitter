@@ -10,6 +10,8 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import MiniTwitter.object.UserRelation;
+
 
 public class MiniTwitterDAO implements IMiniTwitterDAO {
 	
@@ -27,6 +29,33 @@ public class MiniTwitterDAO implements IMiniTwitterDAO {
 			return -1;
 	}
 
+	public List<UserRelation> findUser(String uname, String search) {
+		String query = "SELECT uname FROM users WHERE uname LIKE :search;";
+		Map<String,String> namedParameters = new HashMap<String,String>();
+		namedParameters.put("search", "%"+search+"%");
+		List<UserRelation> users = new ArrayList<UserRelation>();
+		try {
+			List<Map<String, Object>> rows = namedParameterJdbcTemplate.queryForList(query,namedParameters);
+			for (Map<String, Object> row : rows) {
+				String user = (String)row.get("uname");
+				int relation = getRelation(uname, user);
+				users.add(new UserRelation(user,relation));
+			}
+		} catch(Exception e) {}		
+		return users;
+	}
+	
+	private int getRelation(String uname, String search) {
+		if (uname.equals(search))
+			return -1;
+		String query = "SELECT COUNT(*) FROM follows WHERE follower = :uname AND following = :search;";
+		Map<String,String> namedParameters = new HashMap<String,String>();
+		namedParameters.put("uname", uname);
+		namedParameters.put("search", search);
+		int rowcount = namedParameterJdbcTemplate.queryForObject(query,namedParameters,Integer.class);
+		return rowcount;
+	}
+	
 	public List<String> getFollowers(String uname) {
 		String query = "SELECT follower FROM follows WHERE following = :uname;";
 		Map<String,String> namedParameters = new HashMap<String,String>();
@@ -34,13 +63,12 @@ public class MiniTwitterDAO implements IMiniTwitterDAO {
 		List<String> followers = null;
 		try {
 			followers = (List<String>)namedParameterJdbcTemplate.queryForList(query,namedParameters,String.class);
-		} catch(Exception e) {
-		}		
+		} catch(Exception e) {}		
 		return followers;
 	}
 
 	public List<String> getFollowings(String uname) {
-		String query = "SELECT follower FROM follows WHERE follower = :uname;";
+		String query = "SELECT following FROM follows WHERE follower = :uname;";
 		Map<String,String> namedParameters = new HashMap<String,String>();
 		namedParameters.put("uname", uname);
 		List<String> followers = null;
@@ -61,7 +89,7 @@ public class MiniTwitterDAO implements IMiniTwitterDAO {
 	}
 
 	public void unFollow(String follower, String following) {
-		String query = "DELETE FROM follows WHERE follower = :follower AND followering = :following);";
+		String query = "DELETE FROM follows WHERE follower = :follower AND following = :following;";
 		Map<String,String> namedParameters = new HashMap<String,String>();
 		namedParameters.put("follower", follower);
 		namedParameters.put("following", following);

@@ -14,6 +14,11 @@
  	<form action="<c:url value="/followers" />" method="GET">
  		<input type="submit" value="Followers"/>
  	</form>
+ 	<form action="<c:url value="/findUser" />" method="Get">
+ 		<a>Find user:</a>
+ 		<input type='text' name='findUser' size="30"/>
+ 		<input type="submit" value="Find"/>
+ 	</form>
  	<form action="<c:url value="/tweetMessage" />" method="POST">
  		<a>What's happening?</a>
  		<input type='text' name='message' size="70"/>

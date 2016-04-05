@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import MiniTwitter.dao.IMiniTwitterDAO;
 import MiniTwitter.dao.MiniTwitterDAO;
+import MiniTwitter.object.UserRelation;
 
 public class MiniTwitterService implements IMiniTwitterService {
 
@@ -20,6 +21,10 @@ public class MiniTwitterService implements IMiniTwitterService {
 
 	public void setMiniTwitterDAO(MiniTwitterDAO miniTwitterDAO) {
 		this.miniTwitterDAO = miniTwitterDAO;
+	}
+
+	public List<UserRelation> findUser(String uname, String search) {
+		return miniTwitterDAO.findUser(uname, search);
 	}
 
 	public List<String> getFollowers(String uname) {

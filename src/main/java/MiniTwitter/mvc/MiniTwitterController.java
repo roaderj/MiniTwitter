@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import MiniTwitter.object.UserRelation;
 import MiniTwitter.service.IMiniTwitterService;
 
 @Controller
@@ -64,6 +65,45 @@ public class MiniTwitterController {
 		List<String> tweets = miniTwitterService.getTweet(userName, search);
 		model.addAttribute("tweets", tweets);
 		return "userInfoPage";
+	}
+	
+	@RequestMapping(value = {"/followers"} , method = RequestMethod.GET)
+	public String followerPage(Model model, Principal principal) {
+		String userName = principal.getName();
+		model.addAttribute("user", userName);
+		List<String> followers = miniTwitterService.getFollowers(userName);
+		model.addAttribute("followers", followers);
+		return "followerPage";
+	}
+	
+	@RequestMapping(value = {"/following"} , method = RequestMethod.GET)
+	public String followingPage(Model model, Principal principal) {
+		String userName = principal.getName();
+		model.addAttribute("user", userName);
+		List<String> followings = miniTwitterService.getFollowings(userName);
+		model.addAttribute("followings", followings);
+		return "followingPage";
+	}
+	
+	@RequestMapping(value = {"/findUser"} , method = RequestMethod.GET)
+	public String findPage(Model model, Principal principal, @RequestParam("findUser") String find) {
+		String userName = principal.getName();
+		List<UserRelation> users = miniTwitterService.findUser(userName,find);
+		model.addAttribute("users", users);
+		return "findPage";
+	}
+	
+	@RequestMapping(value = {"/followToggle"} , method = RequestMethod.POST)
+	public String handleFollow(Model model, Principal principal, 
+			@RequestParam("followUser") String followUser, @RequestParam("relation") String relation) {
+		String userName = principal.getName();
+		if (relation.equals("0"))
+			miniTwitterService.startFollow(userName,followUser);
+		else if (relation.equals("1")) {
+			System.out.println("reach");
+			miniTwitterService.unFollow(userName,followUser);
+		}
+		return "redirect:/userInfo";
 	}
 
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
